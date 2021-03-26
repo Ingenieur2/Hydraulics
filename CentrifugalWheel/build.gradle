@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    // Build uber-jar
+    id 'com.github.johnrengelman.shadow'
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+//shadowJar {
+//    archiveBaseName.set('CentrifugalWheel')
+//    archiveVersion.set('0.1')
+//    archiveClassifier.set('')
+//    manifest {
+//        attributes 'Main-Class': 'ru.package01.Window01'
+//    }
+//}
+shadowJar {
+    archiveBaseName.set('CentrifugalWheel')
+    archiveVersion.set('0.1')
+    archiveClassifier.set('')
+    manifest {
+        attributes 'Main-Class': 'ru.package01.Window01'
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+tasks.build.dependsOn tasks.shadowJar
+
+test {
+    useJUnitPlatform()
+}
