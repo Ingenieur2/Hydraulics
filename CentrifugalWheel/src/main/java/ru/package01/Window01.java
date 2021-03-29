@@ -23,10 +23,6 @@ public class Window01 {
 
     private JFrame frame;
     private JTextField textField_6;
-    private JTextField textField_30;
-    private JTextField textField_31;
-    private JTextField textField_32;
-    private JTextField textField_33;
 
     /**
      * Launch the application.
@@ -58,7 +54,7 @@ public class Window01 {
         frame = new JFrame();
         frame.setForeground(Color.GRAY);
         frame.setTitle("Calculation of centrifugal wheel");
-        frame.setBounds(200, 250, 1200, 800);
+        frame.setBounds(200, 250, 1300, 800);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JMenuBar menuBar = new JMenuBar();
@@ -110,10 +106,11 @@ public class Window01 {
         listOfLabels1.add(new JLabel("Static inlet pressure, MPa"));
         listOfLabels1.add(new JLabel("Summary Axial Force, N"));
 
+        Font textFieldFont = new Font("Courier New", Font.BOLD, 14);
         List<JTextField> listOfValues = new ArrayList<>();
         for (int i = 0; i < listOfLabels1.size(); i++) {
             listOfValues.add(new JTextField());
-            listOfValues.get(i).setFont(new Font("Courier New", Font.BOLD, 14));
+            listOfValues.get(i).setFont(textFieldFont);
             listOfValues.get(i).setBounds(205, 5 + i * 25, 55, 20);
             if ((i == 0) || (i == 16) || (i == 17) || (i == 19)) {
                 listOfValues.get(i).setBounds(205, 5 + i * 25, 165, 20);
@@ -189,7 +186,7 @@ public class Window01 {
         List<JTextField> listOfValues2 = new ArrayList<>();
         for (int i = 0; i < listOfLabels2.size(); i++) {
             listOfValues2.add(new JTextField());
-            listOfValues2.get(i).setFont(new Font("Courier New", Font.BOLD, 14));
+            listOfValues2.get(i).setFont(textFieldFont);
             if ((i < 6) || (i == 13) || (i == 14)) {
                 listOfValues2.get(i).setBounds(620, 5 + i * 25, 55, 20);
             } else {
@@ -230,7 +227,7 @@ public class Window01 {
             listOfValues3.add(new JTextField());
             listOfValues3.get(i).setEnabled(false);
             listOfValues3.get(i).setVisible(false);
-            listOfValues3.get(i).setFont(new Font("Courier New", Font.BOLD, 14));
+            listOfValues3.get(i).setFont(textFieldFont);
 
             if ((i < 3)) {
                 listOfValues3.get(i).setBounds(740, 30 + i * 25, 55, 20);
@@ -261,60 +258,74 @@ public class Window01 {
         listOfValues3.get(6).setText("-----");
         listOfValues3.get(7).setText("102");
 
+        List<JTextField> listOfValues4 = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            listOfValues4.add(new JTextField());
+            listOfValues4.get(i).setEnabled(false);
+            listOfValues4.get(i).setVisible(false);
+            listOfValues4.get(i).setFont(textFieldFont);
+
+            if ((i < 3)) {
+                listOfValues4.get(i).setBounds(960, 30 + i * 25, 55, 20);
+            }
+            if (i == 3) {
+                listOfValues4.get(i).setBounds(960, 80 + i * 25, 115, 20);
+            }
+            if ((i > 3) && (i < 7)) {
+                listOfValues4.get(i).setBounds(960, 80 + i * 25, 165, 20);
+                listOfValues4.get(i).setEditable(false);
+            }
+            if (i >= 7) {
+                listOfValues4.get(i).setBounds(960, 180 + i * 25, 55, 20);
+            }
+            listOfValues4.get(i).addKeyListener(new KeyAdapter() {  //Checking Whether the INPUT IS CORRECT
+                public void keyTyped(KeyEvent e) {
+                    InputNumberRules.inputNumberRules(e);
+                }
+            });
+            frame.getContentPane().add(listOfValues4.get(i));
+        }
+        listOfValues4.get(0).setText("0.25");
+        listOfValues4.get(1).setText("20");
+        listOfValues4.get(2).setText("0.5");
+        listOfValues4.get(3).setText("0.031");
+        listOfValues4.get(4).setText("-----");
+        listOfValues4.get(5).setText("-----");
+        listOfValues4.get(6).setText("-----");
+        listOfValues4.get(7).setText("75");
+
         //----------------------------------------------------------
         JLabel lblNewLabel_8 = new JLabel("Safety factor");
-        lblNewLabel_8.setFont(new Font("Nyala", Font.PLAIN, 18));
+        lblNewLabel_8.setFont(labelFont);
         lblNewLabel_8.setBounds(265, 80, 85, 20);
         frame.getContentPane().add(lblNewLabel_8);
 
         JLabel lblNewLabel_49 = new JLabel("K_0 =");
-        lblNewLabel_49.setFont(new Font("Nyala", Font.PLAIN, 18));
+        lblNewLabel_49.setFont(labelFont);
         lblNewLabel_49.setBounds(265, 355, 45, 20);
         frame.getContentPane().add(lblNewLabel_49);
 
         JLabel lblNewLabel_46 = new JLabel("-----");                            //for help : D_2
         lblNewLabel_46.setEnabled(false);
         lblNewLabel_46.setVisible(false);
-        lblNewLabel_46.setFont(new Font("Courier New", Font.PLAIN, 15));
+        lblNewLabel_46.setFont(textFieldFont);
         lblNewLabel_46.setBounds(285, 205, 185, 20);
         frame.getContentPane().add(lblNewLabel_46);
 
         JLabel lblNewLabel_47 = new JLabel("-----");                            //for help : b_2
         lblNewLabel_47.setEnabled(false);
         lblNewLabel_47.setVisible(false);
-        lblNewLabel_47.setFont(new Font("Courier New", Font.PLAIN, 15));
+        lblNewLabel_47.setFont(textFieldFont);
         lblNewLabel_47.setBounds(285, 230, 185, 20);
         frame.getContentPane().add(lblNewLabel_47);
 
         JLabel lblNewLabel_48 = new JLabel("");                                    //for K_0
-        lblNewLabel_48.setFont(new Font("Courier New", Font.PLAIN, 15));
+        lblNewLabel_48.setFont(textFieldFont);
         lblNewLabel_48.setBounds(310, 355, 85, 20);
         frame.getContentPane().add(lblNewLabel_48);
 
-        JLabel lblNewLabel_54 = new JLabel("-----");                            //for flow coefficient 3
-        lblNewLabel_54.setEnabled(false);
-        lblNewLabel_54.setVisible(false);
-        lblNewLabel_54.setFont(new Font("Courier New", Font.PLAIN, 15));
-        lblNewLabel_54.setBounds(970, 180, 165, 20);
-        frame.getContentPane().add(lblNewLabel_54);
-
-        JLabel lblNewLabel_55 = new JLabel("-----");                            //for reynolds number 3
-        lblNewLabel_55.setEnabled(false);
-        lblNewLabel_55.setVisible(false);
-        lblNewLabel_55.setFont(new Font("Courier New", Font.PLAIN, 15));
-        lblNewLabel_55.setBounds(970, 205, 165, 20);
-        frame.getContentPane().add(lblNewLabel_55);
-
-        JLabel lblNewLabel_56 = new JLabel("-----");                            //for Leakage flow 3
-        lblNewLabel_56.setEnabled(false);
-        lblNewLabel_56.setVisible(false);
-        lblNewLabel_56.setFont(new Font("Courier New", Font.PLAIN, 15));
-        lblNewLabel_56.setBounds(970, 230, 165, 20);
-        frame.getContentPane().add(lblNewLabel_56);
-
-
         JCheckBox chckbxNewCheckBox = new JCheckBox("Presence of the second seal");
-        chckbxNewCheckBox.setFont(new Font("Nyala", Font.PLAIN, 18));
+        chckbxNewCheckBox.setFont(labelFont);
         chckbxNewCheckBox.setBounds(685, 5, 220, 20);
         chckbxNewCheckBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -333,50 +344,27 @@ public class Window01 {
 
         JCheckBox chckbxNewCheckBox_1 = new JCheckBox("Presence of the next stage");
         chckbxNewCheckBox_1.setEnabled(true);
-        chckbxNewCheckBox_1.setFont(new Font("Nyala", Font.PLAIN, 18));
+        chckbxNewCheckBox_1.setFont(labelFont);
         chckbxNewCheckBox_1.setBounds(920, 5, 220, 20);
         chckbxNewCheckBox_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 String d_seal_2 = listOfValues2.get(13).getText();            //Seal's diameter 1, mm
 
-                if (chckbxNewCheckBox_1.isSelected()) {
-                    textField_30.setEnabled(true);
-                    textField_30.setVisible(true);
-                    textField_31.setEnabled(true);
-                    textField_31.setVisible(true);
-                    textField_32.setEnabled(true);
-                    textField_32.setVisible(true);
-                    textField_33.setEnabled(true);
-                    textField_33.setVisible(true);
-                    lblNewLabel_54.setEnabled(true);
-                    lblNewLabel_54.setVisible(true);
-                    lblNewLabel_55.setEnabled(true);
-                    lblNewLabel_55.setVisible(true);
-                    lblNewLabel_56.setEnabled(true);
-                    lblNewLabel_56.setVisible(true);
-                } else {
-                    textField_30.setEnabled(false);
-                    textField_30.setVisible(false);
-                    textField_31.setEnabled(false);
-                    textField_31.setVisible(false);
-                    textField_32.setEnabled(false);
-                    textField_32.setVisible(false);
-                    textField_33.setEnabled(false);
-                    textField_33.setVisible(false);
-                    lblNewLabel_54.setEnabled(false);
-                    lblNewLabel_54.setVisible(false);
-                    lblNewLabel_55.setEnabled(false);
-                    lblNewLabel_55.setVisible(false);
-                    lblNewLabel_56.setEnabled(false);
-                    lblNewLabel_56.setVisible(false);
-
+                for (int i = 0; i < listOfValues4.size(); i++) {
+                    if (chckbxNewCheckBox_1.isSelected()) {
+                        listOfValues4.get(i).setEnabled(true);
+                        listOfValues4.get(i).setVisible(true);
+                    } else {
+                        listOfValues4.get(i).setEnabled(false);
+                        listOfValues4.get(i).setVisible(false);
+                    }
                 }
             }
         });
         frame.getContentPane().add(chckbxNewCheckBox_1);
 
         JCheckBox chckbxNewCheckBox_3 = new JCheckBox("Automatic");
-        chckbxNewCheckBox_3.setFont(new Font("Nyala", Font.PLAIN, 18));
+        chckbxNewCheckBox_3.setFont(labelFont);
         chckbxNewCheckBox_3.setBounds(855, 155, 100, 20);
         chckbxNewCheckBox_3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -391,7 +379,7 @@ public class Window01 {
 
         JCheckBox chckbxNewCheckBox_2 = new JCheckBox("Help");
 
-        chckbxNewCheckBox_2.setFont(new Font("Nyala", Font.PLAIN, 18));
+        chckbxNewCheckBox_2.setFont(labelFont);
         chckbxNewCheckBox_2.setBounds(285, 180, 60, 20);
         chckbxNewCheckBox_2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -587,10 +575,8 @@ public class Window01 {
                     }
                     F_sum = (F_1 + F_2) - F_3;
                     listOfValues.get(19).setText(String.valueOf(F_sum));
-
                 }
             }
-
         });
         btnNewButton.setBounds(450, 430, 100, 20);
         frame.getContentPane().add(btnNewButton);
@@ -602,11 +588,10 @@ public class Window01 {
             }
         });
         textField_6.setText("1.2");
-        textField_6.setFont(new Font("Courier New", Font.BOLD, 14));
+        textField_6.setFont(textFieldFont);
         textField_6.setBounds(350, 80, 50, 20);
         frame.getContentPane().add(textField_6);
         textField_6.setColumns(15);
-
 
         listOfValues.get(14).setToolTipText("Press Enter to get K_0");
         listOfValues.get(14).setText("90");
@@ -627,63 +612,6 @@ public class Window01 {
                 }
             }
         });
-
-        textField_30 = new JTextField();
-        textField_30.addKeyListener(new KeyAdapter() {  //Checking Whether the INPUT IS CORRECT
-            public void keyTyped(KeyEvent e) {
-                InputNumberRules.inputNumberRules(e);
-            }
-        });
-        textField_30.setEnabled(false);
-        textField_30.setVisible(false);
-        textField_30.setText("0.25");
-        textField_30.setFont(new Font("Courier New", Font.BOLD, 14));
-        textField_30.setBounds(970, 30, 60, 20);
-        frame.getContentPane().add(textField_30);
-        textField_30.setColumns(15);
-
-
-        textField_31 = new JTextField();
-        textField_31.addKeyListener(new KeyAdapter() {  //Checking Whether the INPUT IS CORRECT
-            public void keyTyped(KeyEvent e) {
-                InputNumberRules.inputNumberRules(e);
-            }
-        });
-        textField_31.setEnabled(false);
-        textField_31.setVisible(false);
-        textField_31.setText("20");
-        textField_31.setFont(new Font("Courier New", Font.BOLD, 14));
-        textField_31.setBounds(970, 55, 60, 20);
-        frame.getContentPane().add(textField_31);
-        textField_31.setColumns(15);
-
-        textField_32 = new JTextField();
-        textField_32.addKeyListener(new KeyAdapter() {  //Checking Whether the INPUT IS CORRECT
-            public void keyTyped(KeyEvent e) {
-                InputNumberRules.inputNumberRules(e);
-            }
-        });
-        textField_32.setEnabled(false);
-        textField_32.setVisible(false);
-        textField_32.setText("0.5");
-        textField_32.setFont(new Font("Courier New", Font.BOLD, 14));
-        textField_32.setBounds(970, 80, 60, 20);
-        frame.getContentPane().add(textField_32);
-        textField_32.setColumns(15);
-
-        textField_33 = new JTextField();
-        textField_33.addKeyListener(new KeyAdapter() {  //Checking Whether the INPUT IS CORRECT
-            public void keyTyped(KeyEvent e) {
-                InputNumberRules.inputNumberRules(e);
-            }
-        });
-        textField_33.setEnabled(false);
-        textField_33.setVisible(false);
-        textField_33.setText("0.031");
-        textField_33.setFont(new Font("Courier New", Font.BOLD, 14));
-        textField_33.setBounds(970, 155, 60, 20);
-        frame.getContentPane().add(textField_33);
-        textField_33.setColumns(15);
 
         Scrollbar scrollbar = new Scrollbar();
         scrollbar.setBounds(1167, 0, 17, 734);
