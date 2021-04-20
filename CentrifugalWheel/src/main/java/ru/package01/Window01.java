@@ -436,23 +436,23 @@ public class Window01 {
                 //	123456789012345678
                 while (Math.abs((Q_summ_1 - Q)) > 0.000000000000000001) {
                     Q = Q_summ_1;
-                    double H = Double.parseDouble(listOfValues.get(1).getText());                //Pump head, m
-                    double n = Double.parseDouble(listOfValues.get(2).getText());                //Rotation speed, rpm
-                    double NPSH = Double.parseDouble(listOfValues.get(3).getText());                //Net positive suction head, m
-                    double Density = Double.parseDouble(listOfValues.get(4).getText());                //Density, kg/m3
-                    double S_F = Double.parseDouble(textField_6.getText());                //Safety factor
-                    double n_s = (3.65 * n * Math.sqrt(Q)) / Math.pow(H, 0.75);            //Specific speed
-                    double SSS = (n * Math.sqrt(Q)) / Math.pow((0.1 * NPSH / S_F), 0.75);    //Suction-specific speed
-                    double D_2 = Double.parseDouble(listOfValues.get(8).getText()) / 1000.0;            //Impeller diameter, mm --> m
-                    double b_2 = Double.parseDouble(listOfValues.get(9).getText()) / 1000.0;            //Outlet width, mm  --> m
-                    double sigma_2 = Double.parseDouble(listOfValues.get(10).getText()) / 1000.0;            //Blade thickness, mm --> m
-                    double z = Double.parseDouble(listOfValues.get(11).getText());                //Number of blades
+                    double H = Double.parseDouble(listOfValues.get(1).getText());           //Pump head, m
+                    double n = Double.parseDouble(listOfValues.get(2).getText());           //Rotation speed, rpm
+                    double NPSH = Double.parseDouble(listOfValues.get(3).getText());        //Net positive suction head, m
+                    double Density = Double.parseDouble(listOfValues.get(4).getText());     //Density, kg/m3
+                    double S_F = Double.parseDouble(textField_6.getText());                                 //Safety factor
+                    double n_s = (3.65 * n * Math.sqrt(Q)) / Math.pow(H, 0.75);                             //Specific speed
+                    double SSS = (n * Math.sqrt(Q)) / Math.pow((0.1 * NPSH / S_F), 0.75);                   //Suction-specific speed
+                    double D_2 = Double.parseDouble(listOfValues.get(8).getText()) / 1000.0;                //Impeller diameter, mm --> m
+                    double b_2 = Double.parseDouble(listOfValues.get(9).getText()) / 1000.0;                //Outlet width, mm  --> m
+                    double sigma_2 = Double.parseDouble(listOfValues.get(10).getText()) / 1000.0;           //Blade thickness, mm --> m
+                    double z = Double.parseDouble(listOfValues.get(11).getText());                          //Number of blades
                     double betta_2 = Math.toRadians(Double.parseDouble(listOfValues.get(12).getText()));    //Outlet blade angle, deg --> radians
-                    double d_hub = Double.parseDouble(listOfValues.get(13).getText()) / 1000.0;            //Hub diameter, mm --> m
-                    double d_suc = Double.parseDouble(listOfValues.get(14).getText()) / 1000.0;            //Suction diameter, mm --> m
-                    double Eff_Hyd = Double.parseDouble(listOfValues.get(15).getText());                //Hydraulic efficiency
-                    double fi_1 = Double.parseDouble(listOfValues2.get(3).getText());                //Coefficient of swirling flow 1
-                    double fi_2 = Double.parseDouble(listOfValues3.get(2).getText());                //Coefficient of swirling flow 1
+                    double d_hub = Double.parseDouble(listOfValues.get(13).getText()) / 1000.0;             //Hub diameter, mm --> m
+                    double d_suc = Double.parseDouble(listOfValues.get(14).getText()) / 1000.0;             //Suction diameter, mm --> m
+                    double Eff_Hyd = Double.parseDouble(listOfValues.get(15).getText());        //Hydraulic efficiency
+                    double fi_1 = Double.parseDouble(listOfValues2.get(3).getText());           //Coefficient of swirling flow 1
+                    double fi_2 = Double.parseDouble(listOfValues3.get(2).getText());           //Coefficient of swirling flow 1
                     double P_st_in = Double.parseDouble(listOfValues.get(18).getText()) * 1000000.0;        //Pressure static INLET, MPa --> Pa
                     double y = 1.0 - (Math.sin(betta_2) / (z * Math.sqrt(3.0) / (2.0 * Math.PI) + Math.sin(betta_2)));
                     double ksi_2 = 1.0 - z * sigma_2 / (Math.PI * D_2 * Math.sin(betta_2));
@@ -470,19 +470,19 @@ public class Window01 {
                     listOfValues.get(16).setText(String.valueOf(H_t));
                     listOfValues.get(17).setText(String.valueOf(H_res));
 
-                    double Q_nom = Double.parseDouble(listOfValues2.get(0).getText()) / 3600.0;            //Seal's diameter, m3/hr --> m3/s    	//				Double d_seal_3	= Double.parseDouble(textField_34.getText())/1000.0;			//Seal's diameter 3, mm --> m
-                    double d_seal_1 = Double.parseDouble(listOfValues2.get(14).getText()) / 1000.0;            //Seal's diameter 1, mm --> m    		//				Double delta_3	= Double.parseDouble(textField_30.getText())/1000.0;			//Value of gap seal 3, mm --> m
-                    double d_seal_2 = Double.parseDouble(listOfValues3.get(7).getText()) / 1000.0;            //Seal's diameter 2, mm --> m    		//				Double lyambda3	= Double.parseDouble(textField_33.getText())		;		//Coefficient of friction resistance 3
-                    double delta_1 = Double.parseDouble(listOfValues2.get(1).getText()) / 1000.0;            //Value of gap seal 1, mm --> m 		//				Double l_gap3	= Double.parseDouble(textField_31.getText())/1000.0;			//Length of gap seal 3, mm --> m
-                    double delta_2 = Double.parseDouble(listOfValues3.get(0).getText()) / 1000.0;            //Value of gap seal 2, mm --> m			//				Double myu31		= 0.01;
-                    double nyu = Double.parseDouble(listOfValues2.get(4).getText()) / 1000000.0;        //Viscosity, mm2/s --> m2/s    				//				Double u_y3		= 0.12;
-                    double lyambda1 = Double.parseDouble(listOfValues2.get(6).getText());        //Coefficient of friction resistance 1		//				Double v_03		= 0.15;
-                    double lyambda2 = Double.parseDouble(listOfValues3.get(3).getText());        //Coefficient of friction resistance 2		//				Double	Q_leak3	= myu31*Math.PI* (d_seal_3+delta_3)* delta_3*Math.sqrt(2*g*H_leak3);
-                    double l_gap1 = Double.parseDouble(listOfValues2.get(2).getText()) / 1000.0;            //Length of gap seal 1, mm --> m		//		        u_y3	= 0.5*omega*(d_seal_3+delta_3);
-                    double l_gap2 = Double.parseDouble(listOfValues3.get(1).getText()) / 1000.0;            //Length of gap seal 2, mm --> m		//				v_03	= Q_leak3/ (Math.PI*(d_seal_3+delta_3)* delta_3);
-                    double Eff_wh = Double.parseDouble(listOfValues2.get(5).getText());                //Approximate wheel efficiency				//				lyambda3	= 0.28316210710108*Math.pow(Rey_2, -0.239175686607085);	textField_33.setText(lyambda1.toString());
-                    double H_leak1 = H_t - (V_2u * V_2u) / (2.0 * g) - Math.pow(U_2, 2.0) * (1 - Math.pow(((d_seal_1 + delta_1) / D_2), 2.0)) / (8.0 * g);        //				Double lyambda_gap3	= lyambda3*Math.sqrt(1+	0.25/Math.pow(1.0+1.3*Math.sqrt(lyambda3), 2.0)	*	Math.pow(u_y3/v_03, 2.0));
-                    double H_leak2 = H_t - (V_2u * V_2u) / (2.0 * g) - Math.pow(U_2, 2.0) * (1 - Math.pow(((d_seal_2 + delta_2) / D_2), 2.0)) / (8.0 * g);        //				lyambda*Math.sqrt(1+1/(4*Math.pow((1+1.3*Math.sqrt(lyambda)), 2)*Math.pow(u_y/v_0, 2)));
+                    double Q_nom = Double.parseDouble(listOfValues2.get(0).getText()) / 3600.0;     //Seal's diameter, m3/hr --> m3/s
+                    double d_seal_1 = Double.parseDouble(listOfValues2.get(14).getText()) / 1000.0; //Seal's diameter 1, mm --> m
+                    double d_seal_2 = Double.parseDouble(listOfValues3.get(7).getText()) / 1000.0;  //Seal's diameter 2, mm --> m
+                    double delta_1 = Double.parseDouble(listOfValues2.get(1).getText()) / 1000.0;   //Value of gap seal 1, mm --> m
+                    double delta_2 = Double.parseDouble(listOfValues3.get(0).getText()) / 1000.0;   //Value of gap seal 2, mm --> m
+                    double nyu = Double.parseDouble(listOfValues2.get(4).getText()) / 1000000.0;    //Viscosity, mm2/s --> m2/s
+                    double lyambda1 = Double.parseDouble(listOfValues2.get(6).getText());           //Coefficient of friction resistance 1
+                    double lyambda2 = Double.parseDouble(listOfValues3.get(3).getText());           //Coefficient of friction resistance 2
+                    double l_gap1 = Double.parseDouble(listOfValues2.get(2).getText()) / 1000.0;    //Length of gap seal 1, mm --> m
+                    double l_gap2 = Double.parseDouble(listOfValues3.get(1).getText()) / 1000.0;    //Length of gap seal 2, mm --> m
+                    double Eff_wh = Double.parseDouble(listOfValues2.get(5).getText());             //Approximate wheel efficiency
+                    double H_leak1 = H_t - (V_2u * V_2u) / (2.0 * g) - Math.pow(U_2, 2.0) * (1 - Math.pow(((d_seal_1 + delta_1) / D_2), 2.0)) / (8.0 * g);
+                    double H_leak2 = H_t - (V_2u * V_2u) / (2.0 * g) - Math.pow(U_2, 2.0) * (1 - Math.pow(((d_seal_2 + delta_2) / D_2), 2.0)) / (8.0 * g);
                     double myu11 = 0.01, myu12 = 1.2, myu21 = 0.01, myu22 = 1.2;
                     double u_y1 = 0.1, u_y2 = 0.11;
                     double v_01 = 0.13, v_02 = 0.14;
@@ -529,8 +529,6 @@ public class Window01 {
                                 listOfValues2.get(6).setText(String.valueOf(lyambda1));
                             }
                             double lyambda_gap1 = lyambda1 * Math.sqrt(1.0 + 0.25 / Math.pow(1.0 + 1.3 * Math.sqrt(lyambda1), 2.0) * Math.pow(u_y1 / v_01, 2.0));
-
-                            //lyambda*Math.sqrt(1+1/(4*Math.pow((1+1.3*Math.sqrt(lyambda)), 2)*Math.pow(u_y/v_0, 2)));
                             myu11 = myu12;
                             myu12 = 1.0 / Math.sqrt(1.35 + lyambda_gap1 * l_gap1 / (2.0 * delta_1));
                         }
@@ -597,11 +595,11 @@ public class Window01 {
         listOfValues.get(14).setText("90");
         listOfValues.get(14).addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                double Q_nom = Double.parseDouble(listOfValues2.get(0).getText()) / 3600.0;            //Seal's diameter, m3/hr --> m3/s
-                double n = Double.parseDouble(listOfValues.get(2).getText());                //Rotation speed, rpm
+                double Q_nom = Double.parseDouble(listOfValues2.get(0).getText()) / 3600.0;     //Seal's diameter, m3/hr --> m3/s
+                double n = Double.parseDouble(listOfValues.get(2).getText());                   //Rotation speed, rpm
                 double D_flow = Math.pow((Q_nom / n), (1.0 / 3.0));
                 double d_hub = Double.parseDouble(listOfValues.get(13).getText()) / 1000.0;
-                double d_suc = Double.parseDouble(listOfValues.get(14).getText()) / 1000.0;            //Suction diameter, mm --> m
+                double d_suc = Double.parseDouble(listOfValues.get(14).getText()) / 1000.0;     //Suction diameter, mm --> m
                 if (d_suc > d_hub) {
                     double K_0 = Math.sqrt(d_suc * d_suc - d_hub * d_hub) / D_flow;
                     double K_01 = new BigDecimal(K_0).setScale(5, RoundingMode.UP).doubleValue();  //rounding of K_01
