@@ -209,7 +209,6 @@ public class WindowVanes {
                         calculationStep = calculationStep * 0.1;
                     }
                 }
-
                 listOfValues.get(9).setText(String.valueOf(beginningCurveRadius * 2.0));
                 listOfValues.get(12).setText(String.valueOf(ratioInputOutputAreas));
                 listOfValues.get(7).setText(String.valueOf(SegmentLength));
@@ -244,7 +243,7 @@ public class WindowVanes {
                 double helperValue2 = Math.atan(helperValue1 / (Math.sqrt(1.0 - helperValue1 * helperValue1)));
                 double beginningCurveRadius = (entranceRadius - entranceRoundingRadius) * Math.sin(alpha - helperValue2) / Math.sin(alpha);
 
-                double SegmentLength = entranceRadius * 0.1;
+                double SegmentLength = Double.parseDouble(listOfValues.get(7).getText());
                 double coverageAngle = 0.0;
                 entranceRadius = beginningCurveRadius;
                 double radius = entranceRadius;
@@ -270,7 +269,7 @@ public class WindowVanes {
                         }
 
                         if ((i == 0) || ((i % stepOfExportPoints) == 0) || (i == numberOfCurvePoints - 1)) {
-                            String line1 = i + "     " + (radius * Math.sin(coverageAngle)) + " " + (radius * Math.cos(coverageAngle)) + " " + 0.0;
+                            String line1 = (radius * Math.sin(coverageAngle)) + " " + (radius * Math.cos(coverageAngle)) + " " + 0.0;
                             bufferedWriter.write(line1);
                             bufferedWriter.newLine();
                         }
@@ -280,7 +279,6 @@ public class WindowVanes {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
                 double time = (System.currentTimeMillis() - beginTime) / 1000.0;
                 listOfValues.get(13).setText(String.valueOf(time));
             }
