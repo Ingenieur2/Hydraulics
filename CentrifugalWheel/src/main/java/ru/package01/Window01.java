@@ -2,16 +2,10 @@ package ru.package01;
 
 import java.awt.*;
 
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import javax.swing.*;
 
-import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.awt.event.KeyAdapter;
@@ -19,10 +13,20 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ru.package01.MeridionalCalculation.COORDINATES;
+
 public class Window01 {
 
     private JFrame frame;
     private JTextField textField_6;
+    private MeridionalCanvas meridionalCanvas;
+    private AreaChartCanvas areaChartCanvas;
+    private JTable table;
+    private JScrollPane scrollPane;
+
+    public static Double zoomOfMeridional = 1.0;
+    public static Double zoomOfAreaChartX = 1.0;
+    public static Double zoomOfAreaChartY = 1.0;
 
     /**
      * Launch the application.
@@ -51,35 +55,30 @@ public class Window01 {
      * Initialize the contents of the frame.
      */
     public void initialize() {
+        int x_element = 5;
+        int y_elenent = 40;
         frame = new JFrame();
         frame.setForeground(Color.GRAY);
         frame.setTitle("Calculation of centrifugal wheel");
-        frame.setBounds(200, 250, 1300, 800);
+        frame.setBounds(100, 100, 2000, 1000);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JMenuBar menuBar = new JMenuBar();
-        frame.setJMenuBar(menuBar);
-
-        JMenuItem mntmMenuItem = new JMenuItem("Main dimensions and parameters");
-        mntmMenuItem.setFont(new Font("Nyala", Font.PLAIN, 20));
-        if (mntmMenuItem.isSelected()) {
-            //		frame.setVisible(true);
-        } else {
-            //		frame.setVisible(false);
-        }
-        menuBar.add(mntmMenuItem);
-
-        JMenuItem mntmMenuItem_1 = new JMenuItem("Meridional cross section");
-        mntmMenuItem_1.setFont(new Font("Nyala", Font.PLAIN, 20));
-        menuBar.add(mntmMenuItem_1);
+        meridionalCanvas = new MeridionalCanvas();
+        areaChartCanvas = new AreaChartCanvas();
 
         frame.getContentPane().setLayout(null);
 
-        mntmMenuItem.setSelected(true);
-        if (mntmMenuItem.isSelected()) {
-            mntmMenuItem_1.setSelected(false);
-        } else {
-            mntmMenuItem_1.setSelected(true);
+        Font headerFont = new Font("Nyala", Font.PLAIN, 22);
+        List<JLabel> listOfHeaders = new ArrayList<>();
+        listOfHeaders.add(new JLabel("Main dimensions and parameters"));
+        listOfHeaders.add(new JLabel("Meridional cross section"));
+        listOfHeaders.add(new JLabel("Plot of meridional areas"));
+        listOfHeaders.get(0).setBounds(x_element + 200, y_elenent - 30, 350, 20);
+        listOfHeaders.get(1).setBounds(1185, y_elenent - 30, 250, 20);
+        listOfHeaders.get(2).setBounds(1455, y_elenent - 30, 300, 20);
+        for (int i = 0; i < listOfHeaders.size(); i++) {
+            listOfHeaders.get(i).setFont(headerFont);
+            frame.getContentPane().add(listOfHeaders.get(i));
         }
 
         ////////////NAMES OF LABELS/////////////
@@ -111,12 +110,12 @@ public class Window01 {
         for (int i = 0; i < listOfLabels1.size(); i++) {
             listOfValues.add(new JTextField());
             listOfValues.get(i).setFont(textFieldFont);
-            listOfValues.get(i).setBounds(205, 5 + i * 25, 55, 20);
+            listOfValues.get(i).setBounds(x_element + 200, y_elenent + i * 25, 55, 20);
             if ((i == 0) || (i == 16) || (i == 17) || (i == 19)) {
-                listOfValues.get(i).setBounds(205, 5 + i * 25, 165, 20);
+                listOfValues.get(i).setBounds(x_element + 200, y_elenent + i * 25, 165, 20);
             }
             if ((i == 6) || (i == 7)) {
-                listOfValues.get(i).setBounds(205, 5 + i * 25, 75, 20);
+                listOfValues.get(i).setBounds(x_element + 200, y_elenent + i * 25, 75, 20);
             }
             listOfValues.get(i).addKeyListener(new KeyAdapter() {  //Checking Whether the INPUT IS CORRECT
                 public void keyTyped(KeyEvent e) {
@@ -151,10 +150,9 @@ public class Window01 {
         listOfValues.get(19).setText("-----");
         listOfValues.get(19).setEditable(false);
 
-
         for (int i = 0; i < listOfLabels1.size(); i++) {
             listOfLabels1.get(i).setFont(labelFont);
-            listOfLabels1.get(i).setBounds(5, 5 + i * 25, 200, 20);
+            listOfLabels1.get(i).setBounds(x_element, y_elenent + i * 25, 200, 20);
             frame.getContentPane().add(listOfLabels1.get(i));
         }
 
@@ -179,7 +177,7 @@ public class Window01 {
 
         for (int i = 0; i < listOfLabels2.size(); i++) {
             listOfLabels2.get(i).setFont(labelFont);
-            listOfLabels2.get(i).setBounds(405, 5 + i * 25, 215, 20);
+            listOfLabels2.get(i).setBounds(x_element + 400, y_elenent + i * 25, 215, 20);
             frame.getContentPane().add(listOfLabels2.get(i));
         }
 
@@ -188,13 +186,13 @@ public class Window01 {
             listOfValues2.add(new JTextField());
             listOfValues2.get(i).setFont(textFieldFont);
             if ((i < 6) || (i == 13) || (i == 14)) {
-                listOfValues2.get(i).setBounds(620, 5 + i * 25, 55, 20);
+                listOfValues2.get(i).setBounds(x_element + 615, y_elenent + i * 25, 55, 20);
             } else {
-                listOfValues2.get(i).setBounds(620, 5 + i * 25, 165, 20);
+                listOfValues2.get(i).setBounds(x_element + 615, y_elenent + i * 25, 165, 20);
                 listOfValues2.get(i).setEditable(false);
             }
             if ((i == 6)) {
-                listOfValues2.get(i).setBounds(620, 5 + i * 25, 115, 20);
+                listOfValues2.get(i).setBounds(x_element + 615, y_elenent + i * 25, 115, 20);
                 listOfValues2.get(i).setEditable(true);
             }
             listOfValues2.get(i).addKeyListener(new KeyAdapter() {  //Checking Whether the INPUT IS CORRECT
@@ -230,17 +228,17 @@ public class Window01 {
             listOfValues3.get(i).setFont(textFieldFont);
 
             if ((i < 3)) {
-                listOfValues3.get(i).setBounds(740, 30 + i * 25, 55, 20);
+                listOfValues3.get(i).setBounds(x_element + 735, y_elenent + 25 + i * 25, 55, 20);
             }
             if (i == 3) {
-                listOfValues3.get(i).setBounds(740, 80 + i * 25, 115, 20);
+                listOfValues3.get(i).setBounds(x_element + 735, y_elenent + 75 + i * 25, 115, 20);
             }
             if ((i > 3) && (i < 7)) {
-                listOfValues3.get(i).setBounds(790, 80 + i * 25, 165, 20);
+                listOfValues3.get(i).setBounds(x_element + 785, y_elenent + 75 + i * 25, 165, 20);
                 listOfValues3.get(i).setEditable(false);
             }
             if (i >= 7) {
-                listOfValues3.get(i).setBounds(740, 180 + i * 25, 55, 20);
+                listOfValues3.get(i).setBounds(x_element + 735, y_elenent + 175 + i * 25, 55, 20);
             }
             listOfValues3.get(i).addKeyListener(new KeyAdapter() {  //Checking Whether the INPUT IS CORRECT
                 public void keyTyped(KeyEvent e) {
@@ -266,17 +264,17 @@ public class Window01 {
             listOfValues4.get(i).setFont(textFieldFont);
 
             if ((i < 3)) {
-                listOfValues4.get(i).setBounds(960, 30 + i * 25, 55, 20);
+                listOfValues4.get(i).setBounds(x_element + 955, y_elenent + 25 + i * 25, 55, 20);
             }
             if (i == 3) {
-                listOfValues4.get(i).setBounds(960, 80 + i * 25, 115, 20);
+                listOfValues4.get(i).setBounds(x_element + 955, y_elenent + 75 + i * 25, 115, 20);
             }
             if ((i > 3) && (i < 7)) {
-                listOfValues4.get(i).setBounds(960, 80 + i * 25, 165, 20);
+                listOfValues4.get(i).setBounds(x_element + 955, y_elenent + 75 + i * 25, 165, 20);
                 listOfValues4.get(i).setEditable(false);
             }
             if (i >= 7) {
-                listOfValues4.get(i).setBounds(960, 180 + i * 25, 55, 20);
+                listOfValues4.get(i).setBounds(x_element + 955, y_elenent + 175 + i * 25, 55, 20);
             }
             listOfValues4.get(i).addKeyListener(new KeyAdapter() {  //Checking Whether the INPUT IS CORRECT
                 public void keyTyped(KeyEvent e) {
@@ -297,36 +295,36 @@ public class Window01 {
         //----------------------------------------------------------
         JLabel lblNewLabel_8 = new JLabel("Safety factor");
         lblNewLabel_8.setFont(labelFont);
-        lblNewLabel_8.setBounds(265, 80, 85, 20);
+        lblNewLabel_8.setBounds(x_element + 260, y_elenent + 75, 85, 20);
         frame.getContentPane().add(lblNewLabel_8);
 
         JLabel lblNewLabel_49 = new JLabel("K_0 =");
         lblNewLabel_49.setFont(labelFont);
-        lblNewLabel_49.setBounds(265, 355, 45, 20);
+        lblNewLabel_49.setBounds(x_element + 260, y_elenent + 350, 45, 20);
         frame.getContentPane().add(lblNewLabel_49);
 
         JLabel lblNewLabel_46 = new JLabel("-----");                            //for help : D_2
         lblNewLabel_46.setEnabled(false);
         lblNewLabel_46.setVisible(false);
         lblNewLabel_46.setFont(textFieldFont);
-        lblNewLabel_46.setBounds(285, 205, 185, 20);
+        lblNewLabel_46.setBounds(x_element + 280, y_elenent + 200, 185, 20);
         frame.getContentPane().add(lblNewLabel_46);
 
         JLabel lblNewLabel_47 = new JLabel("-----");                            //for help : b_2
         lblNewLabel_47.setEnabled(false);
         lblNewLabel_47.setVisible(false);
         lblNewLabel_47.setFont(textFieldFont);
-        lblNewLabel_47.setBounds(285, 230, 185, 20);
+        lblNewLabel_47.setBounds(x_element + 280, y_elenent + 225, 185, 20);
         frame.getContentPane().add(lblNewLabel_47);
 
         JLabel lblNewLabel_48 = new JLabel("");                                    //for K_0
         lblNewLabel_48.setFont(textFieldFont);
-        lblNewLabel_48.setBounds(310, 355, 85, 20);
+        lblNewLabel_48.setBounds(x_element + 305, y_elenent + 350, 85, 20);
         frame.getContentPane().add(lblNewLabel_48);
 
         JCheckBox chckbxNewCheckBox = new JCheckBox("Presence of the second seal");
         chckbxNewCheckBox.setFont(labelFont);
-        chckbxNewCheckBox.setBounds(685, 5, 220, 20);
+        chckbxNewCheckBox.setBounds(x_element + 680, y_elenent, 220, 20);
         chckbxNewCheckBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 for (int i = 0; i < listOfValues3.size(); i++) {
@@ -345,7 +343,7 @@ public class Window01 {
         JCheckBox chckbxNewCheckBox_1 = new JCheckBox("Presence of the next stage");
         chckbxNewCheckBox_1.setEnabled(true);
         chckbxNewCheckBox_1.setFont(labelFont);
-        chckbxNewCheckBox_1.setBounds(920, 5, 220, 20);
+        chckbxNewCheckBox_1.setBounds(x_element + 915, y_elenent, 220, 20);
         chckbxNewCheckBox_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 String d_seal_2 = listOfValues2.get(13).getText();            //Seal's diameter 1, mm
@@ -365,7 +363,7 @@ public class Window01 {
 
         JCheckBox chckbxNewCheckBox_3 = new JCheckBox("Automatic");
         chckbxNewCheckBox_3.setFont(labelFont);
-        chckbxNewCheckBox_3.setBounds(855, 155, 100, 20);
+        chckbxNewCheckBox_3.setBounds(x_element + 850, y_elenent + 150, 100, 20);
         chckbxNewCheckBox_3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 if (chckbxNewCheckBox_3.isSelected()) {
@@ -380,7 +378,7 @@ public class Window01 {
         JCheckBox chckbxNewCheckBox_2 = new JCheckBox("Help");
 
         chckbxNewCheckBox_2.setFont(labelFont);
-        chckbxNewCheckBox_2.setBounds(285, 180, 60, 20);
+        chckbxNewCheckBox_2.setBounds(x_element + 280, y_elenent + 175, 60, 20);
         chckbxNewCheckBox_2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 if (chckbxNewCheckBox_2.isSelected()) {
@@ -576,7 +574,7 @@ public class Window01 {
                 }
             }
         });
-        btnNewButton.setBounds(450, 430, 100, 20);
+        btnNewButton.setBounds(x_element + 445, y_elenent + 425, 100, 20);
         frame.getContentPane().add(btnNewButton);
 
         textField_6 = new JTextField();
@@ -587,7 +585,7 @@ public class Window01 {
         });
         textField_6.setText("1.2");
         textField_6.setFont(textFieldFont);
-        textField_6.setBounds(350, 80, 50, 20);
+        textField_6.setBounds(x_element + 345, y_elenent + 75, 50, 20);
         frame.getContentPane().add(textField_6);
         textField_6.setColumns(15);
 
@@ -611,8 +609,163 @@ public class Window01 {
             }
         });
 
-        Scrollbar scrollbar = new Scrollbar();
-        scrollbar.setBounds(1167, 0, 17, 734);
-        frame.getContentPane().add(scrollbar);
+        List<JLabel> listOfLabels3 = new ArrayList<>();
+        listOfLabels3.add(new JLabel("R_a, mm"));
+        listOfLabels3.add(new JLabel("R_b, mm"));
+        listOfLabels3.add(new JLabel("alpha, deg"));
+        listOfLabels3.add(new JLabel("betta, deg"));
+        listOfLabels3.add(new JLabel("Step on the shroud, mm"));
+        listOfLabels3.add(new JLabel("Step on the hub, mm"));
+        listOfLabels3.add(new JLabel("Zoom of meridional, percent"));
+        listOfLabels3.add(new JLabel("Zoom of area chart (x), percent"));
+        listOfLabels3.add(new JLabel("Zoom of area chart (y), percent"));
+        listOfLabels3.add(new JLabel("Calculation time, sec"));
+
+        for (int i = 0; i < listOfLabels3.size(); i++) {
+            listOfLabels3.get(i).setFont(labelFont);
+            listOfLabels3.get(i).setBounds(5, y_elenent + 520 + i * 25, 200, 20);
+            frame.getContentPane().add(listOfLabels3.get(i));
+        }
+
+        List<JTextField> listOfValues5 = new ArrayList<>();
+        for (int i = 0; i < listOfLabels3.size(); i++) {
+            listOfValues5.add(new JTextField());
+            listOfValues5.get(i).setFont(textFieldFont);
+            listOfValues5.get(i).setBounds(x_element + 200, y_elenent + 520 + i * 25, 65, 20);
+            if (i == (listOfLabels3.size() - 1)) {
+                listOfValues5.get(i).setBackground(Color.PINK);
+                listOfValues5.get(i).setEditable(false);
+            }
+            listOfValues5.get(i).addKeyListener(new KeyAdapter() {  //Checking Whether the INPUT IS CORRECT
+                public void keyTyped(KeyEvent e) {
+                    InputNumberRules.inputNumberRules(e);
+                }
+            });
+            frame.getContentPane().add(listOfValues5.get(i));
+        }
+
+        listOfValues5.get(0).setText("18");
+        listOfValues5.get(1).setText("35");
+        listOfValues5.get(2).setText("9");
+        listOfValues5.get(3).setText("0");
+        listOfValues5.get(4).setText("0.01");
+        listOfValues5.get(5).setText("0.0001");
+        listOfValues5.get(6).setText("400");
+        listOfValues5.get(7).setText("400");
+        listOfValues5.get(8).setText("10");
+        listOfValues5.get(9).setText("0.0");
+
+        JButton btnNewButton1 = new JButton("Calculation 1");
+        btnNewButton1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+
+                double beginTime = System.currentTimeMillis();
+                double R_2 = Double.parseDouble(listOfValues.get(8).getText()) / 2.0;                //Impeller radius, mm
+                double b_2 = Double.parseDouble(listOfValues.get(9).getText()) / 1.0;                //Outlet width, mm
+                double R_hub = Double.parseDouble(listOfValues.get(13).getText()) / 2.0;          //Hub radius, mm
+                double R_1 = Double.parseDouble(listOfValues.get(14).getText()) / 2.0;               //Suction radius, mm
+                double R_a = Double.parseDouble(listOfValues5.get(0).getText()) / 1.0;
+                double R_b = Double.parseDouble(listOfValues5.get(1).getText()) / 1.0;
+                double alpha = Math.toRadians(Double.parseDouble(listOfValues5.get(2).getText()));
+                double betta = Math.toRadians(Double.parseDouble(listOfValues5.get(3).getText()));
+                double step_shroud = Double.parseDouble(listOfValues5.get(4).getText());
+                double step_hub = Double.parseDouble(listOfValues5.get(5).getText());
+                COORDINATES.clear();
+                MeridionalCalculation meridionalCalculation = new MeridionalCalculation(R_2, b_2, R_hub, R_1, R_a, R_b, alpha, betta, step_shroud, step_hub);
+//--------------------------------------------------------------------------------------------------------------------
+                //parallel part of code.  There is no benefits for using it. Used for training multiThreading
+                int threadNumber = 1;
+                int flag = 0;
+                List<Thread> calcThreads = new ArrayList<>();
+                for (int i = 0; i < threadNumber; i++) {
+                    int finalI = i;
+                    calcThreads.add(new Thread(() -> {
+                        meridionalCalculation.calc(finalI, threadNumber, R_2, b_2, R_hub, R_1, R_a, R_b, alpha, betta, step_shroud, step_hub);
+                    }));
+                    calcThreads.get(finalI).start();
+//                    try {
+//                        calcThreads.get(finalI).join();
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+                }
+//alternative of using "join". A little faster then "join"-way, but not so obvious
+                while (Thread.activeCount() > 2) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+//--------------------------------------------------------------------------------------------------------------------
+                if (table != null) {
+                    frame.getContentPane().remove(scrollPane);
+                }
+                table = new JTable(COORDINATES.size(), 11);
+                table.setRowHeight(20);
+                table.getColumnModel().getColumn(0).setMaxWidth(45);
+                table.getColumnModel().getColumn(1).setMaxWidth(60);
+
+                table.getColumnModel().getColumn(0).setHeaderValue("NN");
+                table.getColumnModel().getColumn(1).setHeaderValue("X_01, mm");
+                table.getColumnModel().getColumn(2).setHeaderValue("F_1, mm");
+                table.getColumnModel().getColumn(3).setHeaderValue("X_02, mm");
+                table.getColumnModel().getColumn(4).setHeaderValue("F_2, mm");
+                table.getColumnModel().getColumn(5).setHeaderValue("X_arc, mm");
+                table.getColumnModel().getColumn(6).setHeaderValue("Y_arc, mm");
+                table.getColumnModel().getColumn(7).setHeaderValue("R_arc, mm");
+                table.getColumnModel().getColumn(8).setHeaderValue("F, mm^2");
+                table.getColumnModel().getColumn(9).setHeaderValue("Ux, mm");
+                table.getColumnModel().getColumn(10).setHeaderValue("Vx, mm");
+
+                scrollPane = new JScrollPane(table);
+                scrollPane.setBounds(x_element + 270, y_elenent + 520, 850, 220);
+                frame.getContentPane().add(scrollPane);
+
+                for (int i = 0; i < COORDINATES.size(); i++) {
+                    COORDINATES.get(i).getIndex();
+                    table.getModel().setValueAt(COORDINATES.get(i).getIndex(), i, 0);
+                    table.getModel().setValueAt(COORDINATES.get(i).getX01(), i, 1);
+                    table.getModel().setValueAt(COORDINATES.get(i).getF1(), i, 2);
+                    table.getModel().setValueAt(COORDINATES.get(i).getX02(), i, 3);
+                    table.getModel().setValueAt(COORDINATES.get(i).getF2(), i, 4);
+                    table.getModel().setValueAt(COORDINATES.get(i).getX_arc(), i, 5);
+                    table.getModel().setValueAt(COORDINATES.get(i).getY_arc(), i, 6);
+                    table.getModel().setValueAt(COORDINATES.get(i).getR_arc(), i, 7);
+                    table.getModel().setValueAt(COORDINATES.get(i).getF(), i, 8);
+                    table.getModel().setValueAt(COORDINATES.get(i).getUx(), i, 9);
+                    table.getModel().setValueAt(COORDINATES.get(i).getVx(), i, 10);
+                }
+
+                zoomOfMeridional = Double.parseDouble(listOfValues5.get(6).getText()) / 100.0;
+                zoomOfAreaChartX = Double.parseDouble(listOfValues5.get(7).getText()) / 100.0;
+                zoomOfAreaChartY = Double.parseDouble(listOfValues5.get(8).getText()) / 100.0;
+
+                meridionalCanvas.setBackground(Color.WHITE);
+                int widthOfMeridionalCanvas = (int) (2 * zoomOfMeridional * COORDINATES.get(COORDINATES.size() - 1).getX01());
+                int heightOfMeridionalCanvas = (int) (1.2 * zoomOfMeridional * COORDINATES.get(0).getF1());
+
+                meridionalCanvas.setBounds(1140, y_elenent, widthOfMeridionalCanvas, heightOfMeridionalCanvas);
+                frame.getContentPane().add(meridionalCanvas);
+
+                areaChartCanvas.setBackground(Color.WHITE);
+                double maxValueOfArea = 0.0;
+                for (int i = 0; i < COORDINATES.size(); i++) {
+                    if (maxValueOfArea < COORDINATES.get(i).getF()) {
+                        maxValueOfArea = COORDINATES.get(i).getF();
+                    }
+                }
+                int widthOfAreaChartCanvas = (int) (1.1 * zoomOfAreaChartX * COORDINATES.get(0).getF1());
+                int heightOfAreaChartCanvas = (int) (1.1 * zoomOfAreaChartY * maxValueOfArea);
+                areaChartCanvas.setBounds(1160 + widthOfMeridionalCanvas, y_elenent, widthOfAreaChartCanvas, heightOfAreaChartCanvas);
+                frame.getContentPane().add(areaChartCanvas);
+
+                double time = (System.currentTimeMillis() - beginTime) / 1000.0;
+                listOfValues5.get(9).setText(String.valueOf(time));
+            }
+        });
+        btnNewButton1.setBounds(x_element + 145, y_elenent + 775, 120, 20);
+        frame.getContentPane().add(btnNewButton1);
+
     }
 }
