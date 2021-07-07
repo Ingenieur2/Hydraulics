@@ -11,7 +11,7 @@ repositories {
 
 shadowJar {
     archiveBaseName.set('CentrifugalWheel')
-    archiveVersion.set('0.1')
+    archiveVersion.set('0.2')
     archiveClassifier.set('')
     manifest {
         attributes 'Main-Class': 'ru.package01.Window01'
