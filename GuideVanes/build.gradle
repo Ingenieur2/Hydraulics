@@ -10,7 +10,7 @@ repositories {
 }
 
 shadowJar {
-    archiveBaseName.set('CentrifugalWheel')
+    archiveBaseName.set('GuideWanes')
     archiveVersion.set('0.1')
     archiveClassifier.set('')
     manifest {
